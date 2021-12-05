@@ -56,6 +56,13 @@
           <input type="radio" name="write_time" value="after_game">경기 후
           <input class="title" type="text" placeholder="제목" name="post_title" >
           <input class="content" type="textarea" placeholder="내용" name="post_content" >
+          <div style="margin-left:5%">경기에 참여한 회원 : @
+            <select name="tag">
+            <% for(let user of joinUser){ %>
+              <option value="<%= user.user_id %>">이름 : <%= user.name %> 아이디 : <%= user.user_id %></option>
+            <% } %>
+            </select>
+          </div>
           <button class="submit">등록</button>
       </div>
     </form>
