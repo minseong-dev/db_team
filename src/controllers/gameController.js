@@ -77,21 +77,3 @@ exports.recentGameList = async (req, res) => {
     }
 
 }
-
-exports.gamePost = async (req, res) => {
-
-    const { league_num,game_num } = req.params;
-    try{
-        let sess = req.session.user_uid
-        return res.render('gamePost', {
-            league_num:league_num,
-            game_num:game_num,
-            sess:sess
-        })
-    }
-
-    catch (error) {
-        return res.status(500).json(error)
-    }
-   
-}
