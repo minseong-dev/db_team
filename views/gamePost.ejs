@@ -43,9 +43,12 @@
     <!-- navbar -->
 
     <!-- view -->
-    <form action="addGamePost" method="post">
-      <input type="hidden" name="league_num" value="">
-      <input type="hidden" name="game_num" value="">
+    TEST <br>
+    리그번호 : <%= league_num == null ? 'null' : league_num %> <br>
+    경기번호 : <%= game_num == null ? 'null' : game_num %> <br>
+    <form action="/post/addGamePost" method="post">
+      <input type="hidden" name="league_num" value="<%= league_num %>">
+      <input type="hidden" name="game_num" value="<%= game_num %>">
       <div style="margin-left:5% ;">✓ 경기 게시글</div>
       <div class="box">
           <input type="radio" name="write_time" value="before_game">경기 전
