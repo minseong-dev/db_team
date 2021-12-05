@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+  <head>
+
+    <!-- head -->
+    <style>
+      .box {
+        border: 1px solid black ;
+        border-radius: 15px;
+        background-color: rgba(185, 202, 209, 0.404);
+        width:90%;
+        margin: 0% 0% 0% 5%;
+      }
+      .title {
+        display: block;
+        border: 1px solid black ;
+        border-radius: 15px;
+        width:60%;
+        margin: 0 2% 0 2%;
+      }
+      .content {
+        display: block;
+        border: 1px solid black ;
+        border-radius: 15px;
+        height:500px;
+        width:95%;
+        margin: 0 2% 0 2%;
+      }
+      .submit {
+        display: block;
+        background-color:rgb(121, 158, 226) ;
+        color: white;
+        border-radius: 15px;
+        padding: 0% 0% 0% 0%;
+        margin: 0% 0% 0% 88%;
+        font-size: 300%;
+      }
+    </style>
+
+  </head>
+  <body>
+
+    <!-- navbar -->
+
+    <!-- view -->
+    <form action="addGamePost" method="post">
+      <input type="hidden" name="league_num" value="">
+      <input type="hidden" name="game_num" value="">
+      <div style="margin-left:5% ;">✓ 경기 게시글</div>
+      <div class="box">
+          <input type="radio" name="write_time" value="before_game">경기 전
+          <input type="radio" name="write_time" value="in_game" checked="checked">경기 중
+          <input type="radio" name="write_time" value="after_game">경기 후
+          <input class="title" type="text" placeholder="제목" name="post_title" >
+          <input class="content" type="textarea" placeholder="내용" name="post_content" >
+          <button class="submit">등록</button>
+      </div>
+    </form>
+    <!-- bot -->
+
+  </body>
+</html>

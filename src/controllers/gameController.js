@@ -77,3 +77,18 @@ exports.recentGameList = async (req, res) => {
     }
 
 }
+
+exports.gamePost = async (req, res) => {
+
+    try{
+        let sess = req.session.user_uid
+        return res.render('gamePost', {
+            sess:sess
+        })
+    }
+
+    catch (error) {
+        return res.status(500).json(error)
+    }
+   
+}
