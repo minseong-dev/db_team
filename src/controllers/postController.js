@@ -1,11 +1,37 @@
 const postService = require('../services/postService');
 const userService = require('../services/userService');
 
+// 경기 게시판 화면으로 이동
+exports.gamePostList = async (req, res) => {
+
+    const { page } = req.params;
+    let { field, condition } = req.query;
+    try{
+        //const users = await userService.getUsersByGameNum(game_num);
+        let sess = req.session.user_uid
+        return res.render('gamePostList', {
+            sess:sess,
+            page:page,
+            field:field,
+            condition:condition
+        })
+    }
+
+    catch (error) {
+        return res.status(500).json(error)
+    }
+   
+}
+
+// 경기 게시글 화면으로 이동
 exports.gamePost = async (req, res) => {
 
     const { league_num,game_num } = req.params;
-    const users = await userService.getUsersByGameNum(game_num);
     try{
+        //const users = await userService.getUsersByGameNum(game_num);
+        //테스트
+        const users = [{user_id : 'yh',name:'영훈'},{user_id : 'bob',name:'밥'},{user_id : 'a',name:'a'},{user_id : 'b',name:'b'}];
+
         let sess = req.session.user_uid
         return res.render('gamePost', {
             league_num:league_num,
@@ -21,11 +47,11 @@ exports.gamePost = async (req, res) => {
    
 }
 
+//경기 게시글을 작성
 exports.addGamePost = async (req, res) => {
 
     try{
         const { tag,league_num, game_num, write_time, post_title, post_content } = req.body
-        
         const user_id = req.session.user_id;
         postService.addGamePost(tag,user_id,league_num, game_num, write_time, post_title, post_content);
         
@@ -34,12 +60,12 @@ exports.addGamePost = async (req, res) => {
         return res.render('gamePost', { 
             league_num:league_num,
             game_num:game_num,
-
             sess:sess
         })
     }
 
     catch(error) {
+        console.log(error);
         return res.status(500).json(error)
     }
 

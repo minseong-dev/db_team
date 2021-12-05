@@ -8,7 +8,12 @@ exports.addGamePost = async (tag, user_id, league_num, game_num, write_time, pos
         const post = await db.query(postQuery.getLatestPost,[user_id]);
         const post_num = post.post_num;
         await db.query(postQuery.addGamePost, [post_num,league_num,game_num,write_time]);
-        await db.query(postQuery.addUserTag,[tag,post_num]);
+        
+        if(tag != null){
+            for(let t of tag){
+                await db.query(postQuery.addUserTag,[t,post_num]);
+            }
+        }
         return;
     } 
     
