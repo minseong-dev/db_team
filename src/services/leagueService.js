@@ -57,7 +57,6 @@ exports.leagueRank = async (league_id) => {
 
 }
 
-leagueSchedule
 exports.leagueSchedule = async (league_id) => {
     
     try{
@@ -86,7 +85,6 @@ exports.addLeagueTeam = async (leagueTeam_info) => {
 
 }
 
-deleteLeagueTeam
 exports.deleteLeagueTeam = async (leagueTeam_id) => {
     
     try{
