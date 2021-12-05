@@ -1,0 +1,15 @@
+# modules
+node_modules/
+
+# middleware
+middleware/
+
+# images
+images/
+*.png
+*.jpg
+*.mp3
+*.mp4
+
+#files
+*.zip
