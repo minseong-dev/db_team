@@ -5,7 +5,7 @@ exports.gameListPage = async (req, res) => {
     try{
         let myGameList = await gameService.myGameList(user_id)
         let applicationGameList = await gameService.applicationGameList(user_id)
-        let sess = req.session.user_uid
+        let sess = req.session.user_id
         return res.render('index', { 
             page:'./',
             myGameList:myGameList,
@@ -26,7 +26,7 @@ exports.myGameList = async (req, res) => {
 
     try{
         let myGameList = await gameService.myGameList(user_id)
-        let sess = req.session.user_uid
+        let sess = req.session.user_id
         return res.render('index', {
             page:'./',
             sess:sess, 
@@ -46,7 +46,7 @@ exports.applicationGameList = async (req, res) => {
 
     try{
         let applicationGameList = await gameService.applicationGameList(user_id)
-        let sess = req.session.user_uid
+        let sess = req.session.user_id
         return res.render('index', {
             page:'./',
             sess:sess, 
@@ -64,9 +64,8 @@ exports.recentGameList = async (req, res) => {
 
     try{
         let recentGameList = await gameService.recentGameList()
-        let sess = req.session.user_uid
+        let sess = req.session.user_id
         return res.render('index', {
-            page:'./',
             sess:sess, 
             recentGameList:recentGameList
         })

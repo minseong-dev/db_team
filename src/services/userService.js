@@ -1,10 +1,11 @@
 const db = require('../../middleware/db')
 const userQuery = require('../queries/userQuery')
 
-exports.signin = async (user_uid, user_password) => {
+exports.signin = async (user_id, password) => {
 
     try{
-        let signin = await db.query(userQuery.signin, [user_uid, user_password])
+        console.log(user_id, password)
+        let signin = await db.query(userQuery.signin, [user_id, password])
         return signin[0]
     }
 
