@@ -77,3 +77,38 @@ exports.recentGameList = async (req, res) => {
     }
 
 }
+
+// 문제생길까봐 위쪽 안건들고 밑에 추가해서 할게요
+
+exports.myGameListBefore = async (req, res) => {
+
+    try{
+
+        let sess = req.session.user_uid
+        return res.render('myGameListBefore', { 
+
+            sess:sess
+        })
+    }
+
+    catch(error) {
+        return res.status(500).json(error)
+    }
+
+}
+
+exports.myGameListAfter = async (req, res) => {
+
+    try{
+        let sess = req.session.user_uid
+        return res.render('myGameListAfter', { 
+
+            sess:sess
+        })
+    }
+
+    catch(error) {
+        return res.status(500).json(error)
+    }
+
+}
