@@ -185,6 +185,29 @@ exports.deleteGameApplication = async (game_application_num) => {
     }
 }
 
+exports.getGameListAfter = async (team_name) => {
+    try{
+        const conn = await db.getConnection();
+        const query = 
+        `SELECT t1.team_name team_name1, t2.team_name team_name2, game.* FROM
+        (SELECT * FROM team_game WHERE game_num IN
+        (SELECT game_num FROM team_game WHERE game_num IN (SELECT game_num FROM game WHERE game_state != '매칭전') AND team_name = ?)
+        AND team_name = ?) t1
+        INNER JOIN
+        (SELECT * FROM team_game WHERE game_num IN
+        (SELECT game_num FROM team_game WHERE game_num IN (SELECT game_num FROM game WHERE game_state != '매칭전') AND team_name = ?)
+        AND team_name != ?) t2
+        ON t1.game_num = t2.game_num
+        INNER JOIN game ON game.game_num = t1.game_num;`;
+        const [result] = await conn.query(query,[team_name,team_name,team_name,team_name]);
+        conn.release();
+        return result;
+    } catch(error){
+        console.log(error);
+         throw error;
+    }
+}
+
 function findDay(date){
     switch (date.getDay()) {
         case 0:

@@ -109,10 +109,11 @@ exports.myGameListAfter = async (req, res) => {
         req.session.user_id = 'yh'; //임시로 그냥 로그인 처리
         const user = await userService.getUserByUserId('yh');
         const team = await teamService.getTeamByTeamName(user.team_name);
-        const gameListAfter = await gameService.getGameListBefore(team.team_name);
+        const gameListAfter = await gameService.getGameListAfter(team.team_name);
         let sess = req.session.user_uid
         return res.render('myGameListAfter', { 
-            sess:sess
+            sess:sess,
+            gameListAfter:gameListAfter
         })
     }
 

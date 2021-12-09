@@ -13,19 +13,26 @@
 
     <!-- view -->
     
-    <form style="display: inline;" method="get" action="http://localhost:4000/game/myGameListBefore/3">
-      <input type="submit" value="매칭 후">
+    <form style="display: inline;" method="get" action="/game/myGameListBefore/3">
+      <input type="submit" value="매칭 전">
     </form>
     <span>매칭후</span>
     <hr>
     <table style="width:70%;border:1px solid black;text-align:center">
       <thead>
         <tr>
-          <th>날짜/장소</th><th>경기/th><th>상태</th><th>&nbsp</th>
+          <th>날짜/장소</th><th>경기</th><th>상태</th><th>&nbsp</th>
         </tr>
       </thead>
       <tbody>
-       
+        <tr>
+        <% for(let game of gameListAfter){ %>
+          <td><%= game.game_date.getFullYear() %>-<%= game.game_date.getMonth()+1%>-<%= game.game_date.getDate()%><br><%= game.game_time.toString().substring(0,2)%>:<%= game.game_time.toString().substring(2,4)%><br><%= game.game_location%></td>
+          <td><%= game.team_name1 %> VS <%= game.team_name2 %></td>
+          <td><%= game.game_state %></td>
+          <td><a href="/post/gamePost/league_num/<%= game.league_num %>/game_num/<%= game.game_num %>">글 작성</a></td>
+        <%}%>
+        </tr>
       </tbody>
     </table>
     <!-- bot -->

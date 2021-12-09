@@ -14,7 +14,7 @@
     <!-- view -->
     
     <span>매칭전</span>
-    <form style="display: inline;" method="get" action="http://localhost:4000/game/myGameListAfter/3">
+    <form style="display: inline;" method="get" action="/game/myGameListAfter/3">
       <input type="submit" value="매칭 후">
     </form>
     <hr>
@@ -50,7 +50,7 @@
             <td><%= info.game_count%>전<%= info.win_count%>승<%= info.draw_count%>무<%= info.defeat_count%>패</td>
             <td><%= info.game_date.getFullYear() %>-<%= info.game_date.getMonth()+1%>-<%= info.game_date.getDate()%> <%= info.game_time.toString().substring(0,2)%>:<%= info.game_time.toString().substring(2,4)%></td>
             <td><%= info.game_location %></td>
-            <td><a href="http://localhost:4000/game/deleteGameApplication/<%= info.game_application_num %>">신청취소</a></td>
+            <td><a href="http://localhost:3000/game/deleteGameApplication/<%= info.game_application_num %>">신청취소</a></td>
           </tr>
           <%}%>
       </tbody>
