@@ -31,7 +31,7 @@
           <td><%= game.game_location %></td>
           <td><%= game.game_fee %></td>
           <td><%= game.game_date.getFullYear() %>-<%= game.game_date.getMonth()+1%>-<%= game.game_date.getDate()%> <%= game.game_time.toString().substring(0,2)%>:<%= game.game_time.toString().substring(2,4)%></td>
-          <td><%= game.game_recruit_end.toString() %></td>
+          <td><%= game.game_recruit_end.getFullYear() %>-<%= game.game_recruit_end.getMonth()+1%>-<%= game.game_recruit_end.getDate()%></td>
         </tr>
         <%}%>
       </tbody>
