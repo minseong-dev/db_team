@@ -1,7 +1,6 @@
 const leagueService = require('../services/leagueService')
 
 exports.leagueListPage = async (req, res) => {
-
     try{
         let leagueList = await leagueService.leagueList()
         let sess = req.session.user_id

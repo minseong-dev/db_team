@@ -6,7 +6,7 @@ exports.signin = async (req, res) => {
 
     try {
         let signin = await userService.signin(user_id, password)
-        req.session.user_id = signin[0].user_id
+        req.session.user_id = signin[0].user_id;
         return res.redirect('/')
     }
 

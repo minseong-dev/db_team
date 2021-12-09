@@ -20,14 +20,26 @@ exports.getUsersByGameNum = async (game_num) => {
 
     try{
         const conn = await db.getConnection();
-        const [users] = await conn.query(userQuery.getUsersByGameNum, [game_num]);
+        const [users] = await conn.query(userQuery.getJoinUsersByGameNum, [game_num]);
         conn.release();
         return users;
     }
-
     catch (error) {
         console.log(error)
         throw Error(error)
     }
     
+}
+
+exports.getUserByUserId = async (user_id) => {
+    try{
+        const conn = await db.getConnection();
+        const [user] = await conn.query(userQuery.getUserByUserId, [user_id]);
+        conn.release();
+        return user[0];
+    }
+    catch (error) {
+        console.log(error)
+        throw Error(error)
+    }
 }
