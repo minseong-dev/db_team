@@ -181,3 +181,28 @@ exports.deleteGameApplication = async (req, res) => {
     }
 
 }
+
+exports.deleteGameApplication = async (req, res) => {
+    try{
+        req.session.user_id = 'yh'; //임시로 그냥 로그인 처리
+        const { game_application_num } = req.params;
+        await gameService.deleteGameApplication(game_application_num);
+
+        
+        const user = await userService.getUserByUserId('yh');
+        const team = await teamService.getTeamByTeamName(user.team_name);
+        const gameListBefore = await gameService.getGameListBefore(team.team_name);
+        const applicationInfo = await gameService.getGameApplicationInfoBeforeByTeamName(team.team_name);
+        let sess = req.session.user_id;
+        return res.render('myGameListBefore', { 
+            sess:sess,
+            gameListBefore:gameListBefore,
+            applicationInfo:applicationInfo
+        })
+    }
+
+    catch(error) {
+        return res.status(500).json(error)
+    }
+
+}
