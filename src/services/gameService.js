@@ -208,6 +208,63 @@ exports.getGameListAfter = async (team_name) => {
     }
 }
 
+exports.getDetailTeamInfo = async (team_name, league_num) => {
+    try{
+        const conn = await db.getConnection();
+        const query = 
+        `SELECT * FROM team INNER JOIN (SELECT * FROM league_record WHERE league_league_num = ? AND team_name = ?) rc 
+        ON rc.team_name = team.team_name;`;
+        const [result] = await conn.query(query,[league_num,team_name]);
+        conn.release();
+        return result[0];
+    } catch(error){
+        console.log(error);
+         throw error;
+    }
+}
+
+exports.getGameByGameNum = async (game_num) => {
+    try{
+        const conn = await db.getConnection();
+        const query = 
+        `SELECT * FROM game WHERE game_num = ?;`;
+        const [result] = await conn.query(query,[game_num]);
+        conn.release();
+        return result[0];
+    } catch(error){
+        console.log(error);
+         throw error;
+    }
+}
+
+exports.getTeamGameByTeamNameAndGameNum = async (team_name,game_num) => {
+    try{
+        const conn = await db.getConnection();
+        const query = 
+        `SELECT * FROM team_game WHERE team_name = ? AND game_num = ?;`;
+        const [result] = await conn.query(query,[team_name, game_num]);
+        conn.release();
+        return result[0];
+    } catch(error){
+        console.log(error);
+         throw error;
+    }
+}
+
+exports.changeGameState = async (game_num,game_state) => {
+    try{
+        const conn = await db.getConnection();
+        const query = 
+        `UPDATE game SET game_state = ? WHERE game_num=?;`;
+        const [result] = await conn.query(query,[game_state, game_num]);
+        conn.release();
+        return result;
+    } catch(error){
+        console.log(error);
+         throw error;
+    }
+}
+
 function findDay(date){
     switch (date.getDay()) {
         case 0:
