@@ -49,9 +49,9 @@ exports.gamePost = async (req, res) => {
 //경기 게시글 삽입동작
 exports.addGamePost = async (req, res) => {
     try{
-        const { tag,league_num, game_num, write_time, post_title, post_content } = req.body
+        const { tag,league_num, game_num, post_title, post_content } = req.body
         const user_id = req.session.user_id;
-        postService.addGamePost(tag,user_id,league_num, game_num, write_time, post_title, post_content);
+        postService.addGamePost(tag,user_id,league_num, game_num, post_title, post_content);
         
         let sess = req.session.user_id;
 
