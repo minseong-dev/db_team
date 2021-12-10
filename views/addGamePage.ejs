@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+
+    <!-- head -->
+    
+    </style>
+    <title>경기 등록</title>
+  </head>
+  <body>
+
+    <!-- navbar -->
+
+    <!-- view -->
+    
+   <form action="http://localhost:4000/game/addGame" method="post">
+    리그번호:<input type="number" name="league_num" value="2"><br>
+    지역:<input type="text" name="game_local"><br>
+    날짜:<input type="date" name="game_date" ><br>
+    시간:<input type="number" name="game_time" placeholder="HHmm"><br>
+    장소:<input type="text" name="game_location"><br>
+    구장비용:<input type="number" name="game_fee"><br>
+    경기인원:<input type="number" name="game_user_count"><br>
+    기타사항:<input type="text" name="memo"><br>
+    신청마감날짜:<input type="date" name="game_recruit_end"><br>
+    <input type="hidden" name="game_state" value="매칭전">경기상태 : 매칭전<br>
+    <input type="submit" value="경기 추가">
+  </form>
+
+    <!-- bot -->
+
+  </body>
+</html>

@@ -3,6 +3,6 @@ var router = express.Router();
 
 const gameController = require('../controllers/gameController')
 
-router.get('/recentGameList', gameController.gameListPage);
+router.get('/', gameController.recentGameList);
 
 module.exports = router;

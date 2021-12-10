@@ -43,6 +43,15 @@
     <!-- navbar -->
 
     <!-- view -->
+
+    <form style="display: inline;" method="get" action="/game/myGameListBefore">
+      <input type="submit" value="매칭 전">
+    </form>
+    <form style="display: inline;" method="get" action="/game/myGameListAfter">
+      <input type="submit" value="매칭 후">
+    </form>
+    <hr>
+
     TEST <br>
     리그번호 : <%= league_num == null ? 'null' : league_num %> <br>
     경기번호 : <%= game_num == null ? 'null' : game_num %> <br>
@@ -51,9 +60,6 @@
       <input type="hidden" name="game_num" value="<%= game_num %>">
       <div style="margin-left:5% ;">✓ 경기 게시글</div>
       <div class="box">
-          <input type="radio" name="write_time" value="before_game">경기 전
-          <input type="radio" name="write_time" value="in_game" checked="checked">경기 중
-          <input type="radio" name="write_time" value="after_game">경기 후
           <input class="title" type="text" placeholder="제목" name="post_title" >
           <input class="content" type="textarea" placeholder="내용" name="post_content" >
           <div style="margin-left:5%">

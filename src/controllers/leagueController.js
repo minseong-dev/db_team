@@ -1,10 +1,9 @@
 const leagueService = require('../services/leagueService')
 
 exports.leagueListPage = async (req, res) => {
-
     try{
         let leagueList = await leagueService.leagueList()
-        let sess = req.session.user_uid
+        let sess = req.session.user_id
         return res.render('index', { 
             page:'./',
             leagueList:leagueList,
@@ -22,9 +21,8 @@ exports.leagueList = async (req, res) => {
 
     try{
         let leagueList = await leagueService.leagueList()
-        let sess = req.session.user_uid
-        return res.render('index', {
-            page:'./',
+        let sess = req.session.user_id
+        return res.render('leagueList', {
             sess:sess, 
             leagueList:leagueList
         })
@@ -39,8 +37,8 @@ exports.leagueList = async (req, res) => {
 exports.addLeaguePage = async (req, res) => {
     
     try{
-        let sess = req.session.user_uid
-        return res.render('index', { page:'./', sess:sess })
+        let sess = req.session.user_id
+        return res.render('addLeague', { sess:sess })
     }
 
     catch (error) {
@@ -51,11 +49,13 @@ exports.addLeaguePage = async (req, res) => {
 
 exports.addLeague = async (req, res) => {
 
-    const { league_info } = req.body
+    const { league_name, user_id, start_date, finish_date, game_type, league_local } = req.body
 
     try{
-        await leagueService.addLeague(league_info)
-        return res.redirect('/league/leagueDetailPage/'+league_id)
+        await leagueService.addLeague(league_name, user_id, start_date, finish_date, game_type, league_local)
+        let leagueNum = await leagueService.leagueNum(league_name, user_id)
+        let league_num = leagueNum[0]
+        return res.redirect('/league/leagueDetailPage/'+league_num.league_num)
     }
 
     catch (error) {
@@ -66,15 +66,14 @@ exports.addLeague = async (req, res) => {
 
 exports.leagueDetailPage = async (req, res) => {
 
-    const { league_id } = req.params
+    const { league_num } = req.params
     
     try{
-        let detail_info = await leagueService.leagueDetail(league_id)
-        let leagueRank = await leagueService.leagueRank(league_id)
-        let leagueSchedule = await leagueService.leagueSchedule(league_id)
-        let sess = req.session.user_uid
-        return res.render('index', {
-            page:'./',
+        let detail_info = await leagueService.leagueDetail(league_num)
+        let leagueRank = await leagueService.leagueRank(league_num)
+        let leagueSchedule = await leagueService.leagueSchedule(league_num)
+        let sess = req.session.user_id
+        return res.render('leagueDetail', {
             detail_info:detail_info,
             leagueRank:leagueRank,
             leagueSchedule:leagueSchedule,
@@ -94,7 +93,7 @@ exports.leagueDetail = async (req, res) => {
 
     try{
         let leagueDetail = await leagueService.leagueDetail(league_id)
-        let sess = req.session.user_uid
+        let sess = req.session.user_id
         return res.render('index', {
             page:'./',
             sess:sess, 
@@ -114,7 +113,7 @@ exports.leagueRank = async (req, res) => {
 
     try{
         let leagueRank = await leagueService.leagueRank(league_id)
-        let sess = req.session.user_uid
+        let sess = req.session.user_id
         return res.render('index', {
             page:'./',
             sess:sess, 
@@ -134,7 +133,7 @@ exports.leagueSchedule = async (req, res) => {
 
     try{
         let leagueSchedule = await leagueService.leagueSchedule(league_id)
-        let sess = req.session.user_uid
+        let sess = req.session.user_id
         return res.render('index', {
             page:'./',
             sess:sess, 

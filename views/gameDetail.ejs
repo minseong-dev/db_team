@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+  <head>
+
+    <!-- head -->
+    
+    </style>
+    <title>경기 디테일</title>
+  </head>
+  <body>
+
+    <!-- navbar -->
+
+    <!-- view -->
+
+    <form style="display: inline;" method="get" action="/game/myGameListBefore">
+      <input type="submit" value="매칭 전">
+    </form>
+    <form style="display: inline;" method="get" action="/game/myGameListAfter">
+      <input type="submit" value="매칭 후">
+    </form>
+    <hr>
+
+    <div style="display: flex;background-color: rgb(150, 161, 161);">
+      <div style="margin: 0 10% 0 35%;">
+        <div>
+          <span style="font-size: 40px;float: left;"><%= teamInfo1.team_name%></span>
+          <span>평점:<%= teamInfo1.team_rate%></span>
+          <div style="width: 1000%;"><%= teamInfo1.game_count%>전<%= teamInfo1.win_count%>승<%= teamInfo1.draw_count%>무<%= teamInfo1.defeat_count%>패</div>
+        </div>
+
+        <div style="margin: 10% 0 0 0;">지역: <%= teamInfo1.team_local%> <br> 인원수: <%= teamInfo1.team_user_count%>명 </div>
+      </div>
+      <div>
+        <div>
+          <span style="font-size: 40px;float: left;"><%= teamInfo2.team_name%></span>
+          <span>평점:<%= teamInfo2.team_rate%></span>
+          <div style="width: 1000%;"><%= teamInfo2.game_count%>전<%= teamInfo2.win_count%>승<%= teamInfo2.draw_count%>무<%= teamInfo2.defeat_count%>패</div>
+        </div>
+
+        <div style="margin: 10% 0 0 0;">지역: <%= teamInfo2.team_local%> <br> 인원수: <%= teamInfo2.team_user_count%>명 </div>
+      </div>
+    </div>
+
+    <br><br>
+    <% if(game.game_state == '경기전'){ %>
+      <div style="display: flex;">
+        <div>
+          <form action="/game/startGame" method="get">
+            <input type="submit" value="경기 시작">
+            <input type="hidden" name="team_name1" value="<%= teamInfo1.team_name %>">
+            <input type="hidden" name="team_name2" value="<%= teamInfo2.team_name %>">
+            <input type="hidden" name="game_num" value="<%= game.game_num %>">
+            <input type="hidden" name="league_num" value="<%= game.league_num %>">
+          </form>
+        </div>
+      </div>
+      <hr>
+    <% } %>
+
+    <% if(game.game_state == '경기중'){ %>
+      <form action="/game/endGame" method="post">
+
+        <div>
+          <%= game.game_state %>
+        </div>
+
+        <br>
+
+        <div style="display: flex;width:100%;">
+          <div>
+            참여 인원 선택
+            <table style="width:70%;border:1px solid black;text-align:center">
+              <thead>
+                <tr>
+                  <th>이름</th><th>선호포지션</th><th>골</th><th>경고횟수</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% for(let teamUser of teamUsers){ %>
+                <tr>
+                  <td><%= teamUser.name %></td>
+                  <td><%= teamUser.prefer_position %></td>
+                  <td><input type="number" name="score" value="0"></td>
+                  <td><input type="number" name="warning" value="0"></td>
+                </tr>
+                <%}%>
+              </tbody>
+            </table>
+          </div>
+
+          <div>
+            상대팀평가
+            <table style="width:70%;border:1px solid black;text-align:center">
+              <thead>
+                <tr>
+                  <th>&nbsp</th><th>1점</th><th>2점</th><th>3점</th><th>4점</th><th>5점</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>시간,약속</td><td><input name="evalTime" type="radio" value="1"></td><td><input name="evalTime" type="radio" value="2"></td><td><input name="evalTime" type="radio" checked value="3"></td><td><input name="evalTime" type="radio" value="4"></td><td><input name="evalTime" type="radio" value="5"></td>
+                </tr>
+                <tr>
+                  <td>페어플레이</td><td><input name="evalFair" type="radio" value="1"></td><td><input name="evalFair" type="radio" value="2"></td><td><input name="evalFair" type="radio" checked value="3"></td><td><input name="evalFair" type="radio" value="4"></td><td><input name="evalFair" type="radio" value="5"></td>
+                </tr>
+                <tr>
+                  <td>언행</td><td><input name="evalLang" type="radio" value="1"></td><td><input name="evalLang" type="radio" value="2"></td><td><input name="evalLang" type="radio" checked value="3"></td><td><input name="evalLang" type="radio" value="4"></td><td><input name="evalLang" type="radio" value="5"></td>
+                </tr>
+                <tr>
+                  <td>경기후청결</td><td><input name="evalClean" type="radio" value="1"></td><td><input name="evalClean" type="radio" value="2"></td><td><input name="evalClean" type="radio" checked value="3"></td><td><input name="evalClean" type="radio" value="4"></td><td><input name="evalClean" type="radio" value="5"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        
+
+
+
+        <input type="hidden" name="team_name1" value="<%= teamInfo1.team_name %>">
+        <input type="hidden" name="team_name2" value="<%= teamInfo2.team_name %>">
+        <input type="hidden" name="game_num" value="<%= game.game_num %>">
+        <input type="hidden" name="league_num" value="<%= game.league_num %>">
+      </form>
+      <hr>
+    <% } %>
+
+
+
+    <% if(game.game_state == '경기종료'){ %>
+    <div style="display: flex;">
+      <div>
+        <%= teamGame1.score %>
+      </div>
+      <div style="background-color: rgb(136, 112, 112);">
+        <%= game.game_state %>
+        <%= game.game_date.getFullYear() %>-<%= game.game_date.getMonth()+1%>-<%= game.game_date.getDate()%> <%= game.game_time.toString().substring(0,2)%>:<%= game.game_time.toString().substring(2,4)%>
+      </div>
+      <div>
+        <%= teamGame2.score %>
+      </div>
+    </div>
+    <hr>
+    <% } %>
+
+    
+    <!-- bot -->
+
+  </body>
+</html>
