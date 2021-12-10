@@ -43,6 +43,15 @@
     <!-- navbar -->
 
     <!-- view -->
+
+    <form style="display: inline;" method="get" action="/game/myGameListBefore">
+      <input type="submit" value="매칭 전">
+    </form>
+    <form style="display: inline;" method="get" action="/game/myGameListAfter">
+      <input type="submit" value="매칭 후">
+    </form>
+    <hr>
+
     TEST <br>
     리그번호 : <%= league_num == null ? 'null' : league_num %> <br>
     경기번호 : <%= game_num == null ? 'null' : game_num %> <br>
