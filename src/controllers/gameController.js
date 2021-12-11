@@ -162,14 +162,36 @@ exports.detail = async (req, res) => {
     try{
         req.session.user_id = 'yh'; //임시로 그냥 로그인 처리
         let { team_name1, team_name2, game_num, league_num } = req.query;
+        let { action } = req.query;
+        let { teamUserId } = req.query;
 
+        if(action == '경기 시작') await gameService.changeGameState(game_num,'경기중');
+        
         const teamInfo1 = await gameService.getDetailTeamInfo(team_name1,league_num);
         const teamInfo2 = await gameService.getDetailTeamInfo(team_name2,league_num);
         const game = await gameService.getGameByGameNum(game_num);
         const teamGame1 = await gameService.getTeamGameByTeamNameAndGameNum(team_name1,game_num);
         const teamGame2 = await gameService.getTeamGameByTeamNameAndGameNum(team_name2,game_num);
+        const teamUsers = await userService.getUsersByTeamName(team_name1);
 
-        console.log(teamInfo1);
+        let joinUsers = [];
+        if(teamUserId == null) teamUserId = [];
+
+        console.log(Array.isArray(teamUserId));
+        console.log(teamUserId);
+        
+        if(action == '추가' && Array.isArray(teamUserId)==true){
+            for ( let tuid of teamUserId ){
+                let joinUser = await userService.getUserByUserId(tuid);
+                joinUsers.push(joinUser);
+            }
+        }else if(action == '추가' && Array.isArray(teamUserId)==false){
+            let joinUser = await userService.getUserByUserId(teamUserId);
+            joinUsers.push(joinUser);
+        }
+        
+        console.log(joinUsers);
+
         let sess = req.session.user_id;
         return res.render('gameDetail', { 
             sess:sess,
@@ -177,12 +199,16 @@ exports.detail = async (req, res) => {
             teamInfo2:teamInfo2,
             game:game,
             teamGame1:teamGame1,
-            teamGame2:teamGame2
+            teamGame2:teamGame2,
+            teamUsers:teamUsers,
+            teamUserId:teamUserId,
+            joinUsers:joinUsers
         });
 
     }
     
     catch(error) {
+        console.log(error);
         return res.status(500).json(error);
     }
 }
@@ -210,35 +236,4 @@ exports.deleteGameApplication = async (req, res) => {
         return res.status(500).json(error)
     }
 
-}
-
-exports.startGame = async (req, res) => {
-    try{
-        req.session.user_id = 'yh'; //임시로 그냥 로그인 처리
-        let { team_name1, team_name2, game_num, league_num } = req.query;
-
-        await gameService.changeGameState(game_num,'경기중');
-    
-        const teamInfo1 = await gameService.getDetailTeamInfo(team_name1,league_num);
-        const teamInfo2 = await gameService.getDetailTeamInfo(team_name2,league_num);
-        const game = await gameService.getGameByGameNum(game_num);
-        const teamGame1 = await gameService.getTeamGameByTeamNameAndGameNum(team_name1,game_num);
-        const teamGame2 = await gameService.getTeamGameByTeamNameAndGameNum(team_name2,game_num);
-    
-        console.log(teamInfo1);
-        let sess = req.session.user_id;
-        return res.render('gameDetail', { 
-            sess:sess,
-            teamInfo1:teamInfo1,
-            teamInfo2:teamInfo2,
-            game:game,
-            teamGame1:teamGame1,
-            teamGame2:teamGame2
-        })
-    }
-    
-    catch(error) {
-        return res.status(500).json(error)
-    }
-    
 }

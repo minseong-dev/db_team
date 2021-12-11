@@ -43,3 +43,17 @@ exports.getUserByUserId = async (user_id) => {
         throw Error(error)
     }
 }
+
+exports.getUsersByTeamName = async (team_name) => {
+    try{
+        const conn = await db.getConnection();
+        const query = 
+        `SELECT * FROM user WHERE team_name = ?`;
+        const [result] = await conn.query(query,[team_name]);
+        conn.release();
+        return result;
+    } catch(error){
+        console.log(error);
+         throw error;
+    }
+}

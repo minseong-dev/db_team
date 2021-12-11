@@ -35,7 +35,4 @@ router.get('/deleteGameApplication/:game_application_num', gameController.delete
 /* 경기 디테일 페이지  */
 router.get('/detail', gameController.detail);
 
-/* 경기상태 경기중으로 변경  */
-router.get('/startGame', gameController.startGame);
-
 module.exports = router;

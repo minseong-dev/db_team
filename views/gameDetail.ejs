@@ -46,8 +46,8 @@
     <% if(game.game_state == '경기전'){ %>
       <div style="display: flex;">
         <div>
-          <form action="/game/startGame" method="get">
-            <input type="submit" value="경기 시작">
+          <form action="/game/detail" method="get">
+            <input type="submit" name="action" value="경기 시작">
             <input type="hidden" name="team_name1" value="<%= teamInfo1.team_name %>">
             <input type="hidden" name="team_name2" value="<%= teamInfo2.team_name %>">
             <input type="hidden" name="game_num" value="<%= game.game_num %>">
@@ -59,8 +59,7 @@
     <% } %>
 
     <% if(game.game_state == '경기중'){ %>
-
-      <form action="/game/endGame" method="post">
+      <form action="/game/detail" method="get">
 
         <div>
           <%= game.game_state %>
@@ -74,20 +73,41 @@
             <table style="width:70%;border:1px solid black;text-align:center">
               <thead>
                 <tr>
-                  <th>이름</th><th>선호포지션</th><th>골</th><th>경고횟수</th>
+                  <th>아이디</th><th>이름</th><th>선호포지션</th><th>골</th><th>경고횟수</th>
                 </tr>
               </thead>
               <tbody>
-                <% for(let teamUser of teamUsers){ %>
+                <% for(let joinUser of joinUsers){ %>
                 <tr>
-                  <td><%= teamUser.name %></td>
-                  <td><%= teamUser.prefer_position %></td>
+                  <td><%= joinUser.user_id %></td>
+                  <td><%= joinUser.name %></td>
+                  <td><%= joinUser.prefer_position %></td>
                   <td><input type="number" name="score" value="0"></td>
                   <td><input type="number" name="warning" value="0"></td>
                 </tr>
                 <%}%>
               </tbody>
             </table>
+            
+            <select name="teamUserId" style="width:100%">
+              <% for(let teamUser of teamUsers){ %>
+                <% let exist = false; %>
+
+                <% if( Array.isArray(teamUserId)==true ){ %>
+                  <% for(let tuid of teamUserId){ %>
+                      <% if (tuid == teamUser.user_id ){ exist = true} %>
+                  <% } %>
+                <% }else if ( Array.isArray(teamUserId)==false ) { %>
+                      <% if (teamUserId == teamUser.user_id ){ exist = true} %>
+                <% } %>
+
+                <% if(exist == false){ %>
+                <option value="<%= teamUser.user_id %>">아이디: <%=teamUser.user_id%> 이름: <%=teamUser.name%></option>
+                <% } %>
+              <%}%>
+            </select>
+
+            <input type="submit" name="action" value="추가">
           </div>
 
           <div>
@@ -116,9 +136,15 @@
           </div>
         </div>
         
+        
 
-
-
+        <% if( Array.isArray(teamUserId)==true ){ %>
+          <% for(let tuid of teamUserId){ %>
+              <input type="hidden" name="teamUserId" value="<%= tuid %>">
+          <% } %>
+        <% }else if ( Array.isArray(teamUserId)==false ) { %>
+            <input type="hidden" name="teamUserId" value="<%= teamUserId %>">
+        <% } %>
         <input type="hidden" name="team_name1" value="<%= teamInfo1.team_name %>">
         <input type="hidden" name="team_name2" value="<%= teamInfo2.team_name %>">
         <input type="hidden" name="game_num" value="<%= game.game_num %>">
@@ -145,6 +171,7 @@
     <hr>
     <% } %>
 
+    
     
     <!-- bot -->
 
