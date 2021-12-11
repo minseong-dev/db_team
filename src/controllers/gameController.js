@@ -83,7 +83,7 @@ exports.myGameListBefore = async (req, res) => {
 
     try{
         req.session.user_id = 'yh'; //임시로 그냥 로그인 처리
-        const user = await userService.getUserByUserId('yh');
+        const user = await userService.getUserByUserId(req.session.user_id);
         const team = await teamService.getTeamByTeamName(user.team_name);
         const gameListBefore = await gameService.getGameListBefore(team.team_name);
         const applicationInfo = await gameService.getGameApplicationInfoBeforeByTeamName(team.team_name);
@@ -107,7 +107,7 @@ exports.myGameListAfter = async (req, res) => {
 
     try{
         req.session.user_id = 'yh'; //임시로 그냥 로그인 처리
-        const user = await userService.getUserByUserId('yh');
+        const user = await userService.getUserByUserId(req.session.user_id);
         const team = await teamService.getTeamByTeamName(user.team_name);
         const gameListAfter = await gameService.getGameListAfter(team.team_name);
         let sess = req.session.user_uid
@@ -142,7 +142,7 @@ exports.addGame = async (req, res) => {
     try{
         req.session.user_id = 'yh'; //임시로 그냥 로그인 처리
 
-        const user = await userService.getUserByUserId('yh');
+        const user = await userService.getUserByUserId(req.session.user_id);
         const result = await gameService.addGame(req.body);
         await gameService.addteamGame(result.insertId, user.team_name, 2); // 임시로 2번 리그에 추가
 
@@ -164,21 +164,37 @@ exports.detail = async (req, res) => {
         let { team_name1, team_name2, game_num, league_num } = req.query;
         let { action } = req.query;
         let { teamUserId } = req.query;
+        let { user_id,score,warning } = req.query;
+
+        if(action == '등록' && user_id != null & score != null && warning != null) await gameService.addGameInfo(req.query);
 
         if(action == '경기 시작') await gameService.changeGameState(game_num,'경기중');
         
-        const teamInfo1 = await gameService.getDetailTeamInfo(team_name1,league_num);
-        const teamInfo2 = await gameService.getDetailTeamInfo(team_name2,league_num);
-        const game = await gameService.getGameByGameNum(game_num);
-        const teamGame1 = await gameService.getTeamGameByTeamNameAndGameNum(team_name1,game_num);
-        const teamGame2 = await gameService.getTeamGameByTeamNameAndGameNum(team_name2,game_num);
-        const teamUsers = await userService.getUsersByTeamName(team_name1);
+        let teamInfo1 = await gameService.getDetailTeamInfo(team_name1,league_num);
+        let teamInfo2 = await gameService.getDetailTeamInfo(team_name2,league_num);
+        let game = await gameService.getGameByGameNum(game_num);
+        let teamGame1 = await gameService.getTeamGameByTeamNameAndGameNum(team_name1,game_num);
+        let teamGame2 = await gameService.getTeamGameByTeamNameAndGameNum(team_name2,game_num);
+        let teamUsers = await userService.getUsersByTeamName(team_name1);
+
+        if(teamGame1.score != null) console.log('팀1은 정보 입력 완료!');
+        if(teamGame2.score != null) console.log('팀2는 정보 입력 완료!');
+        if(teamGame1.score == null) console.log('팀1은 정보 입력 안함!');
+        if(teamGame2.score == null) console.log('팀2는 정보 입력 안함!');
+
+        if(teamGame1.score != null && teamGame2.score != null){
+            await gameService.changeGameState(game_num,'경기종료');
+            await gameService.updateLeagueRecord(teamGame1,teamGame2);
+            teamInfo1 = await gameService.getDetailTeamInfo(team_name1,league_num);
+            teamInfo2 = await gameService.getDetailTeamInfo(team_name2,league_num);
+            game = await gameService.getGameByGameNum(game_num);
+            teamGame1 = await gameService.getTeamGameByTeamNameAndGameNum(team_name1,game_num);
+            teamGame2 = await gameService.getTeamGameByTeamNameAndGameNum(team_name2,game_num);
+            teamUsers = await userService.getUsersByTeamName(team_name1);
+        } 
 
         let joinUsers = [];
         if(teamUserId == null) teamUserId = [];
-
-        console.log(Array.isArray(teamUserId));
-        console.log(teamUserId);
         
         if(action == '추가' && Array.isArray(teamUserId)==true){
             for ( let tuid of teamUserId ){
@@ -189,8 +205,6 @@ exports.detail = async (req, res) => {
             let joinUser = await userService.getUserByUserId(teamUserId);
             joinUsers.push(joinUser);
         }
-        
-        console.log(joinUsers);
 
         let sess = req.session.user_id;
         return res.render('gameDetail', { 

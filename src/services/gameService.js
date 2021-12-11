@@ -1,5 +1,7 @@
 const db = require('../../middleware/db')
 const gameQuery = require('../queries/gameQuery')
+const userService = require('./userService');
+const leagueService = require('./leagueService');
 
 exports.myGameList = async (user_id) => {
     
@@ -259,6 +261,124 @@ exports.changeGameState = async (game_num,game_state) => {
         const [result] = await conn.query(query,[game_state, game_num]);
         conn.release();
         return result;
+    } catch(error){
+        console.log(error);
+         throw error;
+    }
+}
+
+exports.addGameInfo = async (info) => {
+    try{
+        let { team_name1, team_name2, game_num, league_num } = info;
+        let { user_id,score,warning } = info; // 문자열, 2개이상의 배열
+        let { evalTime,evalFair,evalLang,evalClean } = info;
+
+        const teamInfo1 = await this.getDetailTeamInfo(team_name1,league_num);
+        const teamInfo2 = await this.getDetailTeamInfo(team_name2,league_num);
+        const game = await this.getGameByGameNum(game_num);
+        const teamGame1 = await this.getTeamGameByTeamNameAndGameNum(team_name1,game_num);
+        const teamGame2 = await this.getTeamGameByTeamNameAndGameNum(team_name2,game_num);
+        const teamUsers = await userService.getUsersByTeamName(team_name1);
+
+        const conn = await db.getConnection();
+        
+        //팀 - 경기에 score 업데이트
+        let total_score = 0;
+        if(Array.isArray(score)==true){
+            for ( let sc of score){
+                total_score += parseInt(sc);
+            }
+        }else{
+            total_score = parseInt(score);
+        }
+
+        let total_warning = 0;
+        if(Array.isArray(warning)==true){
+            for (let wr of warning){
+                total_warning += parseInt(wr);
+            }
+        }else{
+            total_warning = parseInt(warning);
+        }
+
+        let query = 
+        `UPDATE team_game SET score = ? , warning_count = ? WHERE game_num = ? AND team_name = ?;`;
+        await conn.query(query,[total_score, total_warning,game_num,team_name1]);
+
+        //상대팀 평가 추가
+        query = 
+        `INSERT INTO opponent_evaluate VALUES (?,?,?,?,?);`;
+        await conn.query(query,['evalTime',league_num,team_name1,game_num,evalTime]);
+        await conn.query(query,['evalFair',league_num,team_name1,game_num,evalFair]);
+        await conn.query(query,['evalLang',league_num,team_name1,game_num,evalLang]);
+        await conn.query(query,['evalClean',league_num,team_name1,game_num,evalClean]);
+
+        //참여 회원 추가
+        query =
+        `INSERT INTO join_user VALUES (?,?,?,?,?,?)`;
+
+        if(Array.isArray(user_id)==true){
+            let size = user_id.length;
+            for (let step = 0; step < size; step++){
+                await conn.query(query,[user_id[step],team_name1,game_num,league_num,warning[step],score[step]]);
+            } 
+        }else{
+            await conn.query(query,[user_id,team_name1,game_num,league_num,warning,score]);
+        }
+
+        conn.release();
+        return 'ok';
+    } catch(error){
+        console.log(error);
+         throw error;
+    }
+}
+
+exports.updateLeagueRecord = async (teamGame1,teamGame2) => {
+    try{
+        const conn = await db.getConnection();
+
+        let league_record1 = await leagueService.getLeagueRecordByTeamNameAndLeagueNum(teamGame1.team_name,teamGame1.league_num);
+        let league_record2 = await leagueService.getLeagueRecordByTeamNameAndLeagueNum(teamGame2.team_name,teamGame2.league_num);
+
+        if(teamGame1.score == teamGame2.score){
+            league_record1.draw_count += 1;
+            league_record2.draw_count += 1;
+        }else if(teamGame1.score > teamGame2.score){
+            league_record1.win_count += 1;
+            league_record2.defeat_count += 1;
+        }else if(teamGame1.score < teamGame2.score){
+            league_record1.defeat_count += 1;
+            league_record2.win_count += 1;
+        }
+
+        const query = 
+        `UPDATE league_record SET 
+        game_count = ?, 
+        win_count = ?, 
+        defeat_count = ?, 
+        draw_count = ? 
+        WHERE team_name = ? AND league_league_num = ?;`;
+        await conn.query(query,[
+            parseInt(league_record1.game_count)+1,
+            league_record1.win_count,
+            league_record1.defeat_count,
+            league_record1.draw_count,
+            league_record1.team_name,
+            teamGame1.league_num
+        ]);
+
+        await conn.query(query,[
+            parseInt(league_record2.game_count)+1,
+            league_record2.win_count,
+            league_record2.defeat_count,
+            league_record2.draw_count,
+            league_record2.team_name,
+            teamGame2.league_num
+        ]);
+
+        conn.release();
+        return 'ok';
     } catch(error){
         console.log(error);
          throw error;

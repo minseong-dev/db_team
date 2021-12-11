@@ -58,38 +58,39 @@
       <hr>
     <% } %>
 
-    <% if(game.game_state == '경기중'){ %>
+    <% if(game.game_state == '경기중' && teamGame1.score == null){ %>
       <form action="/game/detail" method="get">
 
-        <div>
+        <div style="margin: 0 30% 0 46%;">
           <%= game.game_state %>
         </div>
 
         <br>
 
         <div style="display: flex;width:100%;">
-          <div>
+          <div style="width:60%;">
             참여 인원 선택
-            <table style="width:70%;border:1px solid black;text-align:center">
+            <table style="width:80%;border:1px solid black;text-align:center">
               <thead>
                 <tr>
-                  <th>아이디</th><th>이름</th><th>선호포지션</th><th>골</th><th>경고횟수</th>
+                  <th>아이디</th><th>이름</th><th>선호포지션</th><th>골</th><th>경고횟수</th><th>&nbsp</th>
                 </tr>
               </thead>
               <tbody>
                 <% for(let joinUser of joinUsers){ %>
                 <tr>
-                  <td><%= joinUser.user_id %></td>
+                  <td><input type="hidden" name="user_id" value="<%=joinUser.user_id%>"><%= joinUser.user_id %></td>
                   <td><%= joinUser.name %></td>
                   <td><%= joinUser.prefer_position %></td>
-                  <td><input type="number" name="score" value="0"></td>
-                  <td><input type="number" name="warning" value="0"></td>
+                  <td><input type="number" name="score" value="0" min="0"></td>
+                  <td><input type="number" name="warning" value="0" min="0"></td>
+                  <td><input type="submit" value="X"></td>
                 </tr>
                 <%}%>
               </tbody>
             </table>
             
-            <select name="teamUserId" style="width:100%">
+            <select name="teamUserId" style="width:74%">
               <% for(let teamUser of teamUsers){ %>
                 <% let exist = false; %>
 
@@ -110,7 +111,7 @@
             <input type="submit" name="action" value="추가">
           </div>
 
-          <div>
+          <div style="width:50%;">
             상대팀평가
             <table style="width:70%;border:1px solid black;text-align:center">
               <thead>
@@ -134,6 +135,10 @@
               </tbody>
             </table>
           </div>
+        </div>
+
+        <div style="width:70%;margin: 0 27% 0 44%;width:10%;">
+          <input style="width:100%;" type="submit" name="action" value="등록">
         </div>
         
         

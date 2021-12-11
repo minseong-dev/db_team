@@ -65,3 +65,41 @@ exports.getGamePostInfo = async (page,field,condition) => {
     }
 
 }
+
+
+exports.getGamePostInfo = async (page,field,condition) => {
+    try{
+        const conn = await db.getConnection();
+        let query;
+        if(field == 'post_title'){
+            query = 
+            `SELECT * FROM post INNER JOIN game_post 
+            ON post.post_num = game_post.post_num 
+            WHERE post.post_title like ? ORDER BY post.post_num DESC LIMIT ?,10;`;
+            const [result] = await conn.query(query,[`%${condition}%`,(page-1)*10]);
+            conn.release();
+            return result;
+        }else if(field == 'user_id'){
+            query = 
+            `SELECT * FROM post INNER JOIN game_post 
+            ON post.post_num = game_post.post_num 
+            WHERE user_id = ? ORDER BY post.post_num DESC LIMIT ?,10;`;
+
+        }else if(field == 'game_num'){
+            query = 
+            `SELECT * FROM post INNER JOIN game_post 
+            ON post.post_num = game_post.post_num 
+            WHERE game_num = ? ORDER BY post.post_num DESC LIMIT ?,10;`;
+            
+        }else{
+            throw error;
+        }
+        const [result] = await conn.query(query,[condition,(page-1)*10]);
+        conn.release();
+        return result;
+    } catch(error){
+        console.log(error);
+         throw error;
+    }
+
+}

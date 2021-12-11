@@ -36,6 +36,7 @@
           <input type="hidden" name="game_num" value="<%= game.game_num %>">
           <input type="hidden" name="league_num" value="<%= game.league_num %>">
           </form>
+          <td><a href="/post/gamePostList/page/1?field=game_num&condition=<%= game.game_num %>">경기 글 목록 보기</a></td>
           <td><a href="/post/gamePost/league_num/<%= game.league_num %>/game_num/<%= game.game_num %>">글 작성</a></td>
         <%}%>
         </tr>
