@@ -51,6 +51,7 @@
     </div>
 
     <!-- rank -->
+    <div class='container mt-5'>
     <table class="table">
         <thead>
           <tr>
@@ -97,12 +98,17 @@
                     <td style='vertical-align: middle'><%= leagueSchedule[i].game_location %></td>
                     <td style='vertical-align: middle'><%= leagueSchedule[i].team_name %></td>
                     <td style='vertical-align: middle'>vs</td>
-                    <td style='vertical-align: middle'><%= leagueSchedule[i].team_name %></td>
+                    <td style='vertical-align: middle'><%= leagueSchedule[i+1].team_name %></td>
                   </tr>
                 <%}%>
                 </tbody>
         </table>
     </d1>
+    <br>
+    <% if(sess==detail_info[0].user_id) {%>
+      <button type="button" class="btn btn-primary" onclick="location.href='/league/addLeagueTeamPage/<%= detail_info[0].league_num %>'">팀 추가</button>
+    <% } %>
+    </div>
 
 
 
