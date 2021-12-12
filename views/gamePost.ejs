@@ -64,9 +64,12 @@
           <input class="content" type="textarea" placeholder="내용" name="post_content" >
           <div style="margin-left:5%">
             경기에 참여한 회원 : @
-            <select style="width:200px;" size="1" multiple="multiple" name="tag">
-            <% for(let user of joinUser){ %>
-              <option value="<%= user.user_id %>">이름 : <%= user.name %> 아이디 : <%= user.user_id %></option>
+            <select style="width:200px;" size="2" multiple="multiple" name="tag">
+            <% if( Array.isArray(joinUser) == true ){  %>
+              <% let size = joinUser.length %>
+              <% for(let step=0; step<size ; step++){ %>
+                <option value="<%= joinUser[step].user_id %>">이름 : <%= joinUser[step].name %> 아이디 : <%= joinUser[step].user_id %></option>
+              <% } %>
             <% } %>
             </select>
           </div>

@@ -35,9 +35,10 @@ exports.gamePostList = async (req, res) => {
 exports.gamePost = async (req, res) => {
     const { league_num,game_num } = req.params;
     try{
-        //const users = await userService.getUsersByGameNum(game_num); [][]{}처리 안함
-        //테스트
-        const users = [{user_id : 'yh',name:'영훈'},{user_id : 'bob',name:'밥'},{user_id : 'a',name:'a'},{user_id : 'b',name:'b'}];
+        req.session.user_id = 'yh'; //임시로 그냥 로그인 처리
+        const users = await userService.getUsersByGameNum(game_num);
+
+        console.log(users);
 
         let sess = req.session.user_id;
         return res.render('gamePost', {
