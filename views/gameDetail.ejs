@@ -90,14 +90,17 @@
       <form action="/game/detail" method="get">
         
         <div style="margin: 0 30% 0 46%;">
-          <%= game.game_state %>
+          <span class="btn btn-primary"><%= game.game_state %></span>
         </div>
+
+
+        
 
         <br>
 
         <div style="display: flex;width:100%;">
-          <div style="width:60%;">
-            참여 인원 선택
+          <div style="width:60%;margin-left: 1%;" class="table">
+            <span class="badge bg-secondary" style="margin-left:1%;margin-bottom:1%">참여 인원 선택</span>
             <table style="width:80%;border:1px solid black;text-align:center">
               <thead>
                 <tr>
@@ -118,7 +121,7 @@
               </tbody>
             </table>
             
-            <select name="teamUserId" style="width:74%">
+            <select name="teamUserId" style="width:74%;margin-top: 1%;margin-left:0.3%;">
               <% for(let teamUser of teamUsers){ %>
                 <% let exist = false; %>
 
@@ -140,7 +143,7 @@
           </div>
 
           <div style="width:50%;">
-            상대팀평가
+            <span class="badge bg-secondary" style="margin-left:1%;margin-bottom:1%">상대팀평가</span>
             <table style="width:70%;border:1px solid black;text-align:center">
               <thead>
                 <tr>
