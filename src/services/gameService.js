@@ -163,7 +163,10 @@ exports.getGameApplicationInfoBeforeByTeamName = async (team_name) => {
     try{
         const conn = await db.getConnection();
         const query = 
-        `select * from game inner join (SELECT * FROM game_application WHERE team_name = ? AND is_chosen = 0) ap on ap.game_num = game.game_num inner join league_record on league_record.team_name = ap.team_name ;`;
+        `select * from game inner join (SELECT * FROM game_application WHERE team_name = ? AND is_chosen = 0) ap 
+        on ap.game_num = game.game_num inner join league_record 
+        on league_record.team_name = ap.team_name 
+        WHERE league_record.league_league_num = ap.team_league_num;`;
         const [result] = await conn.query(query,[team_name]);
         conn.release();
         return result;
@@ -218,6 +221,7 @@ exports.getDetailTeamInfo = async (team_name, league_num) => {
         ON rc.team_name = team.team_name;`;
         const [result] = await conn.query(query,[league_num,team_name]);
         conn.release();
+
         return result[0];
     } catch(error){
         console.log(error);
