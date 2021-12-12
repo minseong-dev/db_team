@@ -35,7 +35,6 @@ exports.gamePostList = async (req, res) => {
 exports.gamePost = async (req, res) => {
     const { league_num,game_num } = req.params;
     try{
-        req.session.user_id = 'yh'; //임시로 그냥 로그인 처리
         const users = await userService.getUsersByGameNum(game_num);
 
         console.log(users);
@@ -58,8 +57,6 @@ exports.gamePost = async (req, res) => {
 //경기 게시글 삽입동작
 exports.addGamePost = async (req, res) => {
     try{
-        req.session.user_id = 'yh'; //임시로 그냥 로그인 처리
-
         const { tag,league_num, game_num, post_title, post_content } = req.body
         const user_id = req.session.user_id;
         postService.addGamePost(tag,user_id,league_num, game_num, post_title, post_content);

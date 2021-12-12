@@ -25,10 +25,10 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
         <% for(let game of gameListAfter){ %>
+        <tr>
           <form action="/game/detail" method="get">
-          <td><%= game.game_date.getFullYear() %>-<%= game.game_date.getMonth()+1%>-<%= game.game_date.getDate()%><br><%= game.game_time.toString().substring(0,2)%>:<%= game.game_time.toString().substring(2,4)%><br><%= game.game_location%></td>
+          <td><%= game.game_date%><br><%= game.game_time.substring(0,2)%><br><%= game.game_location%></td>
           <td><input type="submit" value="<%= game.team_name1 %> VS <%= game.team_name2 %>"></td>
           <td><%= game.game_state %></td>
           <input type="hidden" name="team_name1" value="<%= game.team_name1 %>">
@@ -38,8 +38,8 @@
           </form>
           <td><a href="/post/gamePostList/page/1?field=game_num&condition=<%= game.game_num %>">경기 글 목록 보기</a></td>
           <td><a href="/post/gamePost/league_num/<%= game.league_num %>/game_num/<%= game.game_num %>">글 작성</a></td>
-        <%}%>
         </tr>
+        <%}%>
       </tbody>
     </table>
     <!-- bot -->

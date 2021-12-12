@@ -51,10 +51,10 @@
       <input type="submit" value="매칭 후">
     </form>
     <hr>
-
-    TEST <br>
+    <div>
     리그번호 : <%= league_num == null ? 'null' : league_num %> <br>
     경기번호 : <%= game_num == null ? 'null' : game_num %> <br>
+    </div>
     <form action="/post/addGamePost" method="post">
       <input type="hidden" name="league_num" value="<%= league_num %>">
       <input type="hidden" name="game_num" value="<%= game_num %>">

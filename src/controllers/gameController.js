@@ -82,7 +82,6 @@ exports.recentGameList = async (req, res) => {
 exports.myGameListBefore = async (req, res) => {
 
     try{
-        req.session.user_id = 'yh'; //임시로 그냥 로그인 처리
         const user = await userService.getUserByUserId(req.session.user_id);
         const team = await teamService.getTeamByTeamName(user.team_name);
         const gameListBefore = await gameService.getGameListBefore(team.team_name);
@@ -106,7 +105,6 @@ exports.myGameListBefore = async (req, res) => {
 exports.myGameListAfter = async (req, res) => {
 
     try{
-        req.session.user_id = 'yh'; //임시로 그냥 로그인 처리
         const user = await userService.getUserByUserId(req.session.user_id);
         const team = await teamService.getTeamByTeamName(user.team_name);
         const gameListAfter = await gameService.getGameListAfter(team.team_name);
@@ -118,6 +116,7 @@ exports.myGameListAfter = async (req, res) => {
     }
 
     catch(error) {
+        console.log(error);
         return res.status(500).json(error)
     }
 
@@ -140,8 +139,6 @@ exports.addGamePage = async (req, res) => {
 
 exports.addGame = async (req, res) => {
     try{
-        req.session.user_id = 'yh'; //임시로 그냥 로그인 처리
-
         const user = await userService.getUserByUserId(req.session.user_id);
         const result = await gameService.addGame(req.body);
         await gameService.addteamGame(result.insertId, user.team_name, 2); // 임시로 2번 리그에 추가
@@ -160,7 +157,6 @@ exports.addGame = async (req, res) => {
 
 exports.detail = async (req, res) => {
     try{
-        req.session.user_id = 'yh'; //임시로 그냥 로그인 처리
         let { team_name1, team_name2, game_num, league_num } = req.query;
         let { action } = req.query;
         let { teamUserId } = req.query;
@@ -229,7 +225,6 @@ exports.detail = async (req, res) => {
 
 exports.deleteGameApplication = async (req, res) => {
     try{
-        req.session.user_id = 'yh'; //임시로 그냥 로그인 처리
         const { game_application_num } = req.params;
         await gameService.deleteGameApplication(game_application_num);
 
