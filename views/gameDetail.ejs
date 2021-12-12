@@ -6,6 +6,14 @@
     
     </style>
     <title>경기 디테일</title>
+
+    <script  language="javascript">
+        
+        console.log('하하');
+        console.log(teamInfo1.team_rate)
+        console.log('네요');
+        alert('as');
+    </script>
   </head>
   <body>
 
@@ -61,7 +69,7 @@
 
     <% if(game.game_state == '경기중' && teamGame1.score == null){ %>
       <form action="/game/detail" method="get">
-
+        
         <div style="margin: 0 30% 0 46%;">
           <%= game.game_state %>
         </div>
@@ -170,7 +178,7 @@
       </div>
       <div style="background-color: rgb(136, 112, 112);">
         <%= game.game_state %>
-        <%= game.game_date.getFullYear() %>-<%= game.game_date.getMonth()+1%>-<%= game.game_date.getDate()%> <%= game.game_time.toString().substring(0,2)%>:<%= game.game_time.toString().substring(2,4)%>
+        <%= game.game_date%> <%= game.game_time%>
       </div>
       <div>
         <%= teamGame2.score %>
