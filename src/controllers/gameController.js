@@ -178,7 +178,7 @@ exports.detail = async (req, res) => {
         if(teamGame1.score == null) console.log('팀1은 정보 입력 안함!');
         if(teamGame2.score == null) console.log('팀2는 정보 입력 안함!');
 
-        if(teamGame1.score != null && teamGame2.score != null){
+        if(teamGame1.score != null && teamGame2.score != null && game.game_state == '경기중'){
             await gameService.changeGameState(game_num,'경기종료');
             await gameService.updateLeagueRecord(teamGame1,teamGame2);
             teamInfo1 = await gameService.getDetailTeamInfo(team_name1,league_num);
