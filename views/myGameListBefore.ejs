@@ -33,10 +33,11 @@
         <% for(let game of gameListBefore){ %>
           <td><%= game.game_location %></td>
           <td><%= game.game_fee %></td>
-          <td><%= game.game_date.getFullYear() %>-<%= game.game_date.getMonth()+1%>-<%= game.game_date.getDate()%> <%= game.game_time.toString().substring(0,2)%>:<%= game.game_time.toString().substring(2,4)%></td>
-          <td><%= game.game_recruit_end.getFullYear() %>-<%= game.game_recruit_end.getMonth()+1%>-<%= game.game_recruit_end.getDate()%></td>
+          <td><%= game.game_date%> <%= game.game_time %></td>
+          <td><%= game.game_recruit_end %></td>
         </tr>
         <%}%>
+
       </tbody>
     </table>
     <br>
@@ -51,7 +52,7 @@
           <tr>
             <td><%= info.team_name%></td>
             <td><%= info.game_count%>전<%= info.win_count%>승<%= info.draw_count%>무<%= info.defeat_count%>패</td>
-            <td><%= info.game_date.getFullYear() %>-<%= info.game_date.getMonth()+1%>-<%= info.game_date.getDate()%> <%= info.game_time.toString().substring(0,2)%>:<%= info.game_time.toString().substring(2,4)%></td>
+            <td><%= info.game_date%> <%= info.game_time%></td>
             <td><%= info.game_location %></td>
             <td><a href="http://localhost:3000/game/deleteGameApplication/<%= info.game_application_num %>">신청취소</a></td>
           </tr>
