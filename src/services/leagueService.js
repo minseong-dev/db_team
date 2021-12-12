@@ -117,7 +117,7 @@ exports.getLeagueRecordByTeamNameAndLeagueNum = async (team_name,league_num) => 
     try{
         const conn = await db.getConnection();
         const query = 
-        `SELECT * FROM league_record WHERE team_name = ? AND league_num = ?;`;
+        `SELECT * FROM league_record WHERE team_name = ? AND league_league_num = ?;`;
         const [result] = await conn.query(query,[team_name, league_num]);
         conn.release();
         return result[0];
