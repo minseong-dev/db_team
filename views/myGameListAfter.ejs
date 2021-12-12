@@ -58,15 +58,15 @@
         <tr>
           <form action="/game/detail" method="get">
           <td><%= game.game_date%><br><%= game.game_time.substring(0,2)%><br><%= game.game_location%></td>
-          <td><input class="btn btn-secondary btn-lg" type="submit" value="<%= game.team_name1 %> VS <%= game.team_name2 %>"></td>
+          <td><input style="margin-top:2%;" class="btn btn-secondary btn-lg" type="submit" value="<%= game.team_name1 %> VS <%= game.team_name2 %>"></td>
           <td><%= game.game_state %></td>
           <input type="hidden" name="team_name1" value="<%= game.team_name1 %>">
           <input type="hidden" name="team_name2" value="<%= game.team_name2 %>">
           <input type="hidden" name="game_num" value="<%= game.game_num %>">
           <input type="hidden" name="league_num" value="<%= game.league_num %>">
           </form>
-          <td><a class="btn btn-secondary btn-lg" href="/post/gamePostList/page/1?field=game_num&condition=<%= game.game_num %>">경기 글 목록 보기</a></td>
-          <td><a class="btn btn-secondary btn-lg" href="/post/gamePost/league_num/<%= game.league_num %>/game_num/<%= game.game_num %>">글 작성</a></td>
+          <td><a style="margin-top:2%;" class="btn btn-secondary btn-lg" href="/post/gamePostList/page/1?field=game_num&condition=<%= game.game_num %>">경기 글 목록 보기</a></td>
+          <td><a style="margin-top:2%;" class="btn btn-secondary btn-lg" href="/post/gamePost/league_num/<%= game.league_num %>/game_num/<%= game.game_num %>">글 작성</a></td>
         </tr>
         <%}%>
       </tbody>
