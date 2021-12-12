@@ -185,22 +185,20 @@
       </form>
       <hr>
     <% }else if(game.game_state == '경기중' && teamGame1.score != null && teamGame2.score ==null){ %>
-      <div>
-        상대 팀의 평가를 기다리고 있습니다!
-      </div>
+      <span style="font-size: 50px;margin-left: 28%;">상대 팀의 평가를 기다리고 있습니다!</span>
     <% } %>
 
     <% if(game.game_state == '경기종료'){ %>
     <div style="display: flex;margin-left:10%;width:80%;height: 80%;" class="btn btn-primary disabled placeholder col-4">
-      <div style="margin-left:27%;margin-right: 10%;font-size: 100%;">
-        <%= teamGame1.score %>
+      <div style="margin-left:25%;margin-right: 10%;font-size: 100%;">
+        <span style="font-size: 40px;text-align: center;"><%= teamGame1.score %></span>
       </div>
-      <div style="background-color: rgb(136, 112, 112);">
-        <%= game.game_state %>
+      <div style="background-color: rgb(136, 112, 112);height: 200px;">
+        <span style="font-size: 80px;"><%= game.game_state %></span>
         <%= game.game_date%> <%= game.game_time%>
       </div>
       <div style="margin-left:10%;margin-right: 27%;">
-        <%= teamGame2.score %>
+        <span style="font-size: 40px;text-align: center;"><%= teamGame2.score %></span>
       </div>
     </div>
     <hr>

@@ -73,4 +73,32 @@ exports.getGamePostInfo = async (page,field,condition) => {
 
 }
 
+exports.getUserTagByUserId = async (user_id) => {
+    try{
+        const conn = await db.getConnection();
+        let query= 
+        `SELECT * FROM user_tag WHERE user_id = ?`;
+        const [result] = await conn.query(query,[user_id]);
+        conn.release();
+        return result;
+    } catch(error){
+        console.log(error);
+         throw error;
+    }
 
+}
+
+exports.deleteUserTag = async (user_id,post_num) => {
+    try{
+        const conn = await db.getConnection();
+        let query= 
+        `DELETE FROM user_tag WHERE user_id = ? AND post_num = ?`;
+        const [result] = await conn.query(query,[user_id,post_num]);
+        conn.release();
+        return result;
+    } catch(error){
+        console.log(error);
+         throw error;
+    }
+
+}

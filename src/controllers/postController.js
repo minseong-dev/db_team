@@ -2,6 +2,7 @@ const postService = require('../services/postService');
 const userService = require('../services/userService');
 const teamService = require('../services/teamService');
 const gameService = require('../services/gameService');
+const { post } = require('../routes');
 
 // 경기 게시판 화면으로 이동
 exports.gamePostList = async (req, res) => {
@@ -64,6 +65,30 @@ exports.addGamePost = async (req, res) => {
         return res.render('myGameListAfter', { 
             sess:sess,
             gameListAfter:gameListAfter
+        })
+    }
+
+    catch(error) {
+        console.log(error);
+        return res.status(500).json(error)
+    }
+
+}
+
+// 회원태그 확인하고 해당 게시글로 이동
+exports.deleteAndCheckUserTag = async (req, res) => {
+    try{
+        const { post_num } = req.query;
+        await postService.deleteUserTag(req.session.user_id,post_num);
+
+        let recentGameList = await gameService.recentGameList();
+        let sess = req.session.user_id;
+        const tags = await postService.getUserTagByUserId(req.session.user_id);
+
+        return res.render('index', {
+            sess:sess, 
+            recentGameList:recentGameList,
+            tags:tags
         })
     }
 

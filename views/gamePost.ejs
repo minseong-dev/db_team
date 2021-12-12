@@ -95,7 +95,7 @@
             <% if( Array.isArray(joinUser) == true ){  %>
               <% let size = joinUser.length %>
               <% for(let step=0; step<size ; step++){ %>
-                <option value="<%= joinUser[step].user_id %>">이름 : <%= joinUser[step].name %> 아이디 : <%= joinUser[step].user_id %></option>
+                <option value="<%= joinUser[step].user_id %>"><span style="color: rgb(58, 195, 219);">이름 : <%= joinUser[step].name %></span> <span>아이디 : <%= joinUser[step].user_id %></span></option>
               <% } %>
             <% } %>
             </select>

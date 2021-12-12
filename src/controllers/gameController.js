@@ -1,6 +1,7 @@
 const gameService = require('../services/gameService');
 const userService = require('../services/userService');
 const teamService = require('../services/teamService');
+const postService = require('../services/postService');
 
 exports.gameListPage = async (req, res) => {
 
@@ -8,6 +9,7 @@ exports.gameListPage = async (req, res) => {
         let myGameList = await gameService.myGameList(user_id);
         let applicationGameList = await gameService.applicationGameList(user_id);
         let sess = req.session.user_id;
+
         return res.render('index', { 
             page:'./',
             myGameList:myGameList,
@@ -65,10 +67,13 @@ exports.applicationGameList = async (req, res) => {
 exports.recentGameList = async (req, res) => {
     try{
         let recentGameList = await gameService.recentGameList();
-        let sess = req.session.user_id
+        let sess = req.session.user_id;
+        const tags = await postService.getUserTagByUserId(req.session.user_id);
+
         return res.render('index', {
             sess:sess, 
-            recentGameList:recentGameList
+            recentGameList:recentGameList,
+            tags:tags
         })
     }
     catch (error) {

@@ -43,6 +43,16 @@
 </nav>
 
     <!-- view -->
+<% if( tags.length != 0 ){ %>
+  <span>당신을 언급한 게시글:</span>
+<% } %>
+
+<% for ( let t of tags ){ %>
+  <form action="/post/deleteAndCheckUserTag" style="display: inline;">
+    <input type="submit" name="post_num" value="<%= t.post_num %>">
+  </form>
+<% } %>
+
     <!-- text -->
 <div class='text-center'>
     <h1 class='display-1 mt-5 mb-4'>우리동네리그</h1>
