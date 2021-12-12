@@ -33,6 +33,7 @@
       </div>
       <div>
         <div>
+          
           <span style="font-size: 40px;float: left;"><%= teamInfo2.team_name%></span>
           <span>평점:<%= teamInfo2.team_rate%></span>
           <div style="width: 1000%;"><%= teamInfo2.game_count%>전<%= teamInfo2.win_count%>승<%= teamInfo2.draw_count%>무<%= teamInfo2.defeat_count%>패</div>
@@ -156,9 +157,11 @@
         <input type="hidden" name="league_num" value="<%= game.league_num %>">
       </form>
       <hr>
+    <% }else if(game.game_state == '경기중' && teamGame1.score != null && teamGame2.score ==null){ %>
+      <div>
+        상대 팀의 평가를 기다리고 있습니다!
+      </div>
     <% } %>
-
-
 
     <% if(game.game_state == '경기종료'){ %>
     <div style="display: flex;">
