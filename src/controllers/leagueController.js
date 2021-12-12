@@ -149,11 +149,33 @@ exports.leagueSchedule = async (req, res) => {
 
 exports.addLeagueTeam = async (req, res) => {
 
-    const { leagueTeam_info } = req.body
+    const { team_name } = req.body
+    const { league_num } = req.params
 
     try{
-        await leagueService.addLeagueTeam(leagueTeam_info)
-        return res.redirect('/league/leagueDetailPage/'+league_id)
+        await leagueService.addLeagueTeam(team_name, league_num)
+        return res.redirect('/league/leagueDetailPage/'+league_num)
+    }
+
+    catch (error) {
+        return res.status(500).json(error)
+    }
+
+}
+
+exports.addLeagueTeamPage = async (req, res) => {
+
+    const { league_num } = req.params
+    
+    try{
+        let detail_info = await leagueService.leagueDetail(league_num)
+        let leagueRank = await leagueService.leagueRank(league_num)
+        let sess = req.session.user_id
+        return res.render('addLeagueTeam', {
+            detail_info:detail_info,
+            leagueRank:leagueRank,
+            sess:sess 
+        })
     }
 
     catch (error) {

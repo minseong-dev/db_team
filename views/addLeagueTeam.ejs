@@ -42,33 +42,53 @@
     </div>
 </nav>
 
-    <!-- leagueList -->
-<div class='container mt-5'>
-      <table class="table">
-          <thead>
-            <tr>
-              <th scope="col" style='width: 30%'>No</th>
-              <th scope="col" style='width: 30%'>리그명</th>
-              <th scope="col" style='width: 15%'>개최자</th>
-              <th scope="col" style='width: 10%'>기간</th>
-              <th scope="col" style='width: 15%'>매칭방법</th>
-            </tr>
-          </thead>
-          <tbody>
-          <% for(let league of leagueList){ %>
-            <tr>
-              <td style='vertical-align: middle'><a href="/league/leagueDetailPage/<%= league.league_num %>"><%= league.league_num %></td></a>
-              <td style='vertical-align: middle'><%= league.league_name %></td>
-              <td style='vertical-align: middle'><%= league.user_id %></td>
-              <td style='vertical-align: middle'><%= league.start_date %> ~ <%= league.finish_date %></td>
-              <td style='vertical-align: middle'><%= league.game_type %></td>
-            </tr>
-          <%}%>
-          </tbody>
-      </table>
-      <button type="button" class="btn btn-primary" onclick="location.href='/league/addLeaguePage'">리그생성하기</button>
-  </div>
-    
+    <!-- league_info -->
+    <div class='w-50 container mt-5'>
+        <h1> <%= detail_info[0].league_name %> </h1>
+        <h4>개설자: <%= detail_info[0].user_id %> </h4>
+        <h4>지역: <%= detail_info[0].league_local %> </h4>
+        <h5>리그 기간: <%= detail_info[0].start_date %> ~ <%= detail_info[0].finish_date %></h5>
+    </div>
+
+    <!-- rank -->
+    <div class='container mt-5'>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col" style='width: 10%'>순위</th>
+            <th scope="col" style='width: 15%'>팀명</th>
+            <th scope="col" style='width: 15%'>경기수</th>
+            <th scope="col" style='width: 15%'>승</th>
+            <th scope="col" style='width: 15%'>무</th>
+            <th scope="col" style='width: 15%'>패</th>
+            <th scope="col" style='width: 15%'>매칭취소횟수</th>
+          </tr>
+        </thead>
+        <tbody>
+        <% for(var i=0; i < leagueRank.length; i++){ %>
+          <tr>
+            <td style='vertical-align: middle'><%= i+1 %></td>
+            <td style='vertical-align: middle'><%= leagueRank[i].team_name %></td>
+            <td style='vertical-align: middle'><%= leagueRank[i].game_count %></td>
+            <td style='vertical-align: middle'><%= leagueRank[i].win_count %></td>
+            <td style='vertical-align: middle'><%= leagueRank[i].drow_count %></td>
+            <td style='vertical-align: middle'><%= leagueRank[i].defeat_count %></td>
+            <td style='vertical-align: middle'><%= leagueRank[i].game_cancel_count %></td>
+          </tr>
+        <%}%>
+        </tbody>
+    </table>
+
+    <form action='/league/addLeagueTeam/<%= detail_info[0].league_num %>' method='post'>
+          <input type="text" name='team_name' class="form-control" placeholder="추가할 팀 이름" style='height: 50px';>
+        <div class="mt-3">
+          <button type="submit" class="w-100 btn btn-primary btn-lg" style='height: 65px';>팀 추가</button>
+        </div>
+    </form>
+    </div>
+
+
+
     <!-- bot -->
     <!-- Optional JavaScript; choose one of the two! -->
 

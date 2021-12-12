@@ -28,7 +28,10 @@ router.get('/leagueRank/:league_num', leagueController.leagueRank);
 router.get('/leagueSchedule/:league_num', leagueController.leagueSchedule);
 
 /* 리그팀 추가 */
-router.post('/addLeagueTeam', leagueController.addLeagueTeam);
+router.post('/addLeagueTeam/:league_num', leagueController.addLeagueTeam);
+
+/* 리그팀 추가 페이지 */
+router.get('/addLeagueTeamPage/:league_num', leagueController.addLeagueTeamPage);
 
 /* 리그팀 삭제 */
 router.get('/deleteLeagueTeam/:team_name', leagueController.deleteLeagueTeam);

@@ -85,10 +85,10 @@ exports.leagueSchedule = async (league_num) => {
 
 }
 
-exports.addLeagueTeam = async (leagueTeam_info) => {
+exports.addLeagueTeam = async (team_name, league_num) => {
     
     try{
-        let addLeagueTeam = await db.query(leagueQuery.addLeagueTeam, [leagueTeam_info])
+        let addLeagueTeam = await db.query(leagueQuery.addLeagueTeam, [team_name, league_num])
         return addLeagueTeam[0]
     } 
     
