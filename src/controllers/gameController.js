@@ -108,7 +108,7 @@ exports.myGameListAfter = async (req, res) => {
         const user = await userService.getUserByUserId(req.session.user_id);
         const team = await teamService.getTeamByTeamName(user.team_name);
         const gameListAfter = await gameService.getGameListAfter(team.team_name);
-        let sess = req.session.user_uid
+        let sess = req.session.user_id;
         return res.render('myGameListAfter', { 
             sess:sess,
             gameListAfter:gameListAfter

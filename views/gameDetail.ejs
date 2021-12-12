@@ -1,35 +1,54 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
     <!-- head -->
     
     </style>
     <title>경기 디테일</title>
-
-    <script  language="javascript">
-        
-        console.log('하하');
-        console.log(teamInfo1.team_rate)
-        console.log('네요');
-        alert('as');
-    </script>
   </head>
   <body>
 
     <!-- navbar -->
-
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/">HOME</a>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <% if(sess == null) { %>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/user/signin">로그인</a>
+              </li>
+            <% } else { %>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page"><%= sess %>님</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/user/logout">로그아웃</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/myPage/main/<%= sess %>">마이페이지</a>
+              </li>
+            <% } %>
+          </ul>
+        </div>
+      </div>
+  </nav>
     <!-- view -->
 
     <form style="display: inline;" method="get" action="/game/myGameListBefore">
-      <input type="submit" value="매칭 전">
+      <input style="background-color:rgb(202, 216, 241);" type="submit" value="매칭 전">
     </form>
-    <form style="display: inline;" method="get" action="/game/myGameListAfter">
-      <input type="submit" value="매칭 후">
+    <form style="display:inline;" method="get" action="/game/myGameListAfter">
+      <input style="background-color:rgb(202, 216, 241);" type="submit" value="매칭 후">
     </form>
     <hr>
-
-    <div style="display: flex;background-color: rgb(150, 161, 161);">
+    
+    <div style="display: flex;background-color: rgb(166, 206, 194);">
       <div style="margin: 0 10% 0 35%;">
         <div>
           <span style="font-size: 40px;float: left;"><%= teamInfo1.team_name%></span>
@@ -172,15 +191,15 @@
     <% } %>
 
     <% if(game.game_state == '경기종료'){ %>
-    <div style="display: flex;">
-      <div>
+    <div style="display: flex;margin-left:10%;width:80%;height: 80%;" class="btn btn-primary disabled placeholder col-4">
+      <div style="margin-left:27%;margin-right: 10%;font-size: 100%;">
         <%= teamGame1.score %>
       </div>
       <div style="background-color: rgb(136, 112, 112);">
         <%= game.game_state %>
         <%= game.game_date%> <%= game.game_time%>
       </div>
-      <div>
+      <div style="margin-left:10%;margin-right: 27%;">
         <%= teamGame2.score %>
       </div>
     </div>
