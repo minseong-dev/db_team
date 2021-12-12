@@ -9,10 +9,6 @@ exports.gamePostList = async (req, res) => {
     let { field, condition } = req.query;
 
     const gamePostInfo = await postService.getGamePostInfo(page,field,condition);
-    gamePostInfo.map(item =>{
-        const date = new Date(item.post_register_date);
-        item.post_register_date = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
-    })
     
     try{
         let sess = req.session.user_id
