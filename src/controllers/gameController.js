@@ -234,7 +234,7 @@ exports.deleteGameApplication = async (req, res) => {
         await gameService.deleteGameApplication(game_application_num);
 
         
-        const user = await userService.getUserByUserId('yh');
+        const user = await userService.getUserByUserId(req.session.user_id);
         const team = await teamService.getTeamByTeamName(user.team_name);
         const gameListBefore = await gameService.getGameListBefore(team.team_name);
         const applicationInfo = await gameService.getGameApplicationInfoBeforeByTeamName(team.team_name);
@@ -247,6 +247,7 @@ exports.deleteGameApplication = async (req, res) => {
     }
 
     catch(error) {
+        console.log(error);
         return res.status(500).json(error)
     }
 
