@@ -42,55 +42,31 @@
     </div>
 </nav>
 
-    <!-- view -->
-    <!-- text -->
-<div class='text-center'>
-    <h1 class='display-1 mt-5 mb-4'>우리동네리그</h1>
-</div>
-
-<div class='container mt-5'>
-  <img src='http://image.dongascience.com/Photo/2018/05/9540f8d3c30277c5db36bcaad8048e2a.jpg' width='100%' height='250px'>
-</div>
-
-    <!-- menutable -->
-<div class='container mt-5'>
-    <table class="table table-bordered">
-        <tbody>
-            <tr>
-                <th style='width: 20%' height='50'>마이페이지</th>
-                <th style='width: 20%'>팀</th>
-                <th style='width: 20%' onClick="location.href='/league/leagueList'">리그</th>
-                <th style='width: 20%'>게시판</th>
-                <th style='width: 20%' onClick="location.href='/game/myGameListBefore'">경기</th>
-            </tr>
-        </tbody>
-    </table>
-</div>
-
-    <!-- recentgame -->
+    <!-- leagueList -->
 <div class='container mt-5'>
       <table class="table">
           <thead>
             <tr>
-              <th scope="col" style='width: 30%'>경기일자</th>
-              <th scope="col" style='width: 30%'>경기장소</th>
-              <th scope="col" style='width: 15%'>#1</th>
-              <th scope="col" style='width: 10%'></th>
-              <th scope="col" style='width: 15%'>#2</th>
+              <th scope="col" style='width: 30%'>No</th>
+              <th scope="col" style='width: 30%'>리그명</th>
+              <th scope="col" style='width: 15%'>개최자</th>
+              <th scope="col" style='width: 10%'>기간</th>
+              <th scope="col" style='width: 15%'>매칭방법</th>
             </tr>
           </thead>
           <tbody>
-          <% for(var i=0; i < recentGameList.length; i+=2){ %>
+          <% for(let league of leagueList){ %>
             <tr>
-              <td style='vertical-align: middle'><%= recentGameList[i].game_date %></td>
-              <td style='vertical-align: middle'><%= recentGameList[i].game_location %></td>
-              <td style='vertical-align: middle'><%= recentGameList[i].team_name %></td>
-              <td style='vertical-align: middle'>vs</td>
-              <td style='vertical-align: middle'><%= recentGameList[i+1].team_name %></td>
+              <td style='vertical-align: middle'><a href="/league/leagueDetailPage/<%= league.league_num %>"><%= league.league_num %></td></a>
+              <td style='vertical-align: middle'><%= league.league_name %></td>
+              <td style='vertical-align: middle'><%= league.user_id %></td>
+              <td style='vertical-align: middle'><%= league.start_date %> ~ <%= league.finish_date %></td>
+              <td style='vertical-align: middle'><%= league.game_type %></td>
             </tr>
           <%}%>
           </tbody>
       </table>
+      <button type="button" class="btn btn-primary" onclick="location.href='/league/addLeaguePage'">리그생성하기</button>
   </div>
     
     <!-- bot -->

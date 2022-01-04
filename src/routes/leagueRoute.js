@@ -16,21 +16,24 @@ router.get('/addLeaguePage', leagueController.addLeaguePage);
 router.post('/addLeague', leagueController.addLeague);
 
 /* 리그상세 페이지 */
-router.get('/leagueDetailPage/:league_id', leagueController.leagueDetailPage);
+router.get('/leagueDetailPage/:league_num', leagueController.leagueDetailPage);
 
 /* 리그상세 */
-router.get('/leagueDetail/:league_id', leagueController.leagueDetail);
+router.get('/leagueDetail/:league_num', leagueController.leagueDetail);
 
 /* 리그순위 */
-router.get('/leagueRank/:league_id', leagueController.leagueRank);
+router.get('/leagueRank/:league_num', leagueController.leagueRank);
 
 /* 리그일정 */
-router.get('/leagueSchedule/:league_id', leagueController.leagueSchedule);
+router.get('/leagueSchedule/:league_num', leagueController.leagueSchedule);
 
 /* 리그팀 추가 */
-router.post('/addLeagueTeam', leagueController.addLeagueTeam);
+router.post('/addLeagueTeam/:league_num', leagueController.addLeagueTeam);
+
+/* 리그팀 추가 페이지 */
+router.get('/addLeagueTeamPage/:league_num', leagueController.addLeagueTeamPage);
 
 /* 리그팀 삭제 */
-router.get('/deleteLeagueTeam/:team_id', leagueController.deleteLeagueTeam);
+router.get('/deleteLeagueTeam/:team_name', leagueController.deleteLeagueTeam);
 
 module.exports = router;

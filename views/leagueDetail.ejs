@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+  <head>
+
+    <!-- head -->
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+
+    <title>soccer</title>
+
+
+  </head>
+  <body>
+
+    <!-- navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">HOME</a>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <% if(sess == null) { %>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/user/signin">로그인</a>
+            </li>
+          <% } else { %>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page"><%= sess %>님</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/user/logout">로그아웃</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/myPage/main/<%= sess %>">마이페이지</a>
+            </li>
+          <% } %>
+        </ul>
+      </div>
+    </div>
+</nav>
+
+    <!-- league_info -->
+    <div class='w-50 container mt-5'>
+        <h1> <%= detail_info[0].league_name %> </h1>
+        <h4>개설자: <%= detail_info[0].user_id %> </h4>
+        <h4>지역: <%= detail_info[0].league_local %> </h4>
+        <h5>리그 기간: <%= detail_info[0].start_date %> ~ <%= detail_info[0].finish_date %></h5>
+    </div>
+
+    <!-- rank -->
+    <div class='container mt-5'>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col" style='width: 10%'>순위</th>
+            <th scope="col" style='width: 15%'>팀명</th>
+            <th scope="col" style='width: 15%'>경기수</th>
+            <th scope="col" style='width: 15%'>승</th>
+            <th scope="col" style='width: 15%'>무</th>
+            <th scope="col" style='width: 15%'>패</th>
+            <th scope="col" style='width: 15%'>매칭취소횟수</th>
+          </tr>
+        </thead>
+        <tbody>
+        <% for(var i=0; i < leagueRank.length; i++){ %>
+          <tr>
+            <td style='vertical-align: middle'><%= i+1 %></td>
+            <td style='vertical-align: middle'><%= leagueRank[i].team_name %></td>
+            <td style='vertical-align: middle'><%= leagueRank[i].game_count %></td>
+            <td style='vertical-align: middle'><%= leagueRank[i].win_count %></td>
+            <td style='vertical-align: middle'><%= leagueRank[i].drow_count %></td>
+            <td style='vertical-align: middle'><%= leagueRank[i].defeat_count %></td>
+            <td style='vertical-align: middle'><%= leagueRank[i].game_cancel_count %></td>
+          </tr>
+        <%}%>
+        </tbody>
+    </table>
+
+    <!-- 경기일정 -->
+    <d1 class='container mt-5'>
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col" style='width: 35%'>경기일자</th>
+                <th scope="col" style='width: 20%'>장소</th>
+                <th scope="col" style='width: 15%'>#1</th>
+                <th scope="col" style='width: 15%'></th>
+                <th scope="col" style='width: 15%'>#2</th>
+              </tr>
+            </thead>
+            <tbody>
+                <% for(var i=0; i < leagueSchedule.length; i+=2){ %>
+                  <tr>
+                    <td style='vertical-align: middle'><%= leagueSchedule[i].game_date %></td>
+                    <td style='vertical-align: middle'><%= leagueSchedule[i].game_location %></td>
+                    <td style='vertical-align: middle'><%= leagueSchedule[i].team_name %></td>
+                    <td style='vertical-align: middle'>vs</td>
+                    <td style='vertical-align: middle'><%= leagueSchedule[i+1].team_name %></td>
+                  </tr>
+                <%}%>
+                </tbody>
+        </table>
+    </d1>
+    <br>
+    <% if(sess==detail_info[0].user_id) {%>
+      <button type="button" class="btn btn-primary" onclick="location.href='/league/addLeagueTeamPage/<%= detail_info[0].league_num %>'">팀 추가</button>
+    <% } %>
+    </div>
+
+
+
+    <!-- bot -->
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script>
+-->
+  </body>
+</html>

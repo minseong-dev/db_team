@@ -2,11 +2,11 @@ const userService = require('../services/userService')
 
 exports.signin = async (req, res) => {
 
-    const { user_uid, user_password } = req.body
+    const { user_id, password } = req.body
 
     try {
-        let signin = await userService.signin(user_uid, user_password)
-        req.session.user_uid = signin[0].user_uid
+        let signin = await userService.signin(user_id, password)
+        req.session.user_id = signin[0].user_id;
         return res.redirect('/')
     }
 
@@ -24,8 +24,8 @@ exports.signin = async (req, res) => {
 exports.signinPage = async (req, res) => {
     
     try{
-        let sess = req.session.user_uid
-        return res.render('index', { page:'./user/signin', sess:sess })
+        let sess = req.session.user_id
+        return res.render('signin', { sess:sess })
     }
 
     catch (error) {
